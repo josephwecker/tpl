@@ -26,7 +26,10 @@ copy these two files into your own C project and build them with your program:
     src/tpl.h
     src/tpl.c
 
-On MinGW and Cygwin, tpl must be built as a library.
+WINDOWS
+-------
+You can build tpl as a DLL under Visual Studio 2008. Or you can use MinGW or
+Cygwin.
 
 SELF-TEST SUITE
 ---------------
@@ -48,6 +51,6 @@ ChangeLog.
 
 Feel free to send me questions, comments or bug reports.
 
-Troy D. Hanson, April 23, 2009 
+Troy D. Hanson, February 5, 2010 
 thanson@users.sourceforge.net
 
