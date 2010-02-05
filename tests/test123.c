@@ -6,19 +6,20 @@
 jmp_buf env;
 extern tpl_hook_t tpl_hook;
 
-void catch_fatal(char *fmt, ...) {
+int catch_oops(const char *fmt, ...) {
   va_list ap;
 
   va_start(ap, fmt);
   vfprintf(stderr, fmt, ap);
   va_end(ap);
   longjmp(env,-1);                /* return to setjmp point */
+  return 0; /* not reached */
 }
 
 int main() {
   int err;
   tpl_node *tn;
-  tpl_hook.fatal = catch_fatal;    /* install fatal handler */
+  tpl_hook.oops = catch_oops;    /* install fatal handler */
 
   err = setjmp(env); /* on error, control will return here  */
   if (err) {

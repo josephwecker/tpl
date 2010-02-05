@@ -1,7 +1,7 @@
 tpl User Guide
 ==============
 Troy D. Hanson <thanson@users.sourceforge.net>
-v1.4, April 2009
+v1.5, February 2010
 
 include::sflogo.txt[]
 include::topnav.txt[]
@@ -75,7 +75,7 @@ portable among them.
 
 XML and Perl
 ~~~~~~~~~~~~
-'Note: The `tplxml` utility and the Perl module are currently unsupported in tpl 1.4.'
+'Note: The `tplxml` utility and the Perl module are currently unsupported in tpl 1.5.'
 
 XML
 ^^^
@@ -107,11 +107,7 @@ platforms including:
  * Solaris 
  * Mac OS X 
  * OpenBSD 
- * Windows (using Cygwin or MinGW)
-
-//The http://apps.sourceforge.net/mediawiki/tpl/[tpl wiki] may have additional
-//platform-specific supplements such as pre-built binaries or bits relating to
-//package management.
+ * Windows using Visual Studio 2008 or 2010, or Cygwin or MinGW
 
 BSD licensed
 ~~~~~~~~~~~~
@@ -133,8 +129,6 @@ Resources
 ~~~~~~~~~
 News::
  The author has a news feed for http://troydhanson.wordpress.com/feed/[software updates] image:img/rss.png[(RSS)].
-Wiki::
- Supplemental information may be found on the http://apps.sourceforge.net/mediawiki/tpl/[tpl wiki].
 
 Build and install
 -----------------
@@ -147,8 +141,7 @@ As source
 ~~~~~~~~~
 The simplest way to use tpl is to copy the source files `tpl.h` and `tpl.c`
 (from the `src/` directory) right into your project, and build them with the
-rest of your source files. No special compiler flags are required. (Note to
-*MinGW* and *Cygwin* users: tpl must be built as a library on these platforms.)
+rest of your source files. No special compiler flags are required. 
 
 As a library
 ~~~~~~~~~~~~
@@ -169,6 +162,31 @@ You can compile and run the built-in test suite by running:
     
     cd tests/
     make
+
+On Windows
+~~~~~~~~~~
+
+DLL
+^^^
+On the tpl home page, a Visual Studio 2008 solution package is available for
+download.  This zip file contains pre-built 32- and 64-bit versions of tpl as a
+DLL.  If you like, you can build the DLL yourself using  VS2008 or VS2010 (the
+free Express Edition is sufficient) by opening the solution file and choosing
+Build Solution. 
+
+Non-DLL usage
+^^^^^^^^^^^^^
+Alternatively, tpl can be used directly (instead of as a DLL) by compiling
+the tpl sources right into your program. To do this, add `tpl.c`, `tpl.h`,
+`win/mman.h` and `win/mmap.c` to your program's source and header files and 
+add the preprocessor definition `TPL_NOLIB`.
+
+MinGW/Cygwin
+^^^^^^^^^^^^
+Prior to tpl release 1.5, using tpl on Windows required building it with MinGW
+or Cygwin. This is no longer necessary. If you want to build it that way anyway,
+use the non-Windows (i.e. tar.bz2) tpl download and follow the "configure; make;
+make install" approach.
 
 API concepts
 ------------

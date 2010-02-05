@@ -1,5 +1,8 @@
 #include <stdlib.h>
 #include <windows.h>
+#ifdef _WIN32
+#include <io.h>
+#endif
 #include <errno.h>
 #include "mman.h"
 

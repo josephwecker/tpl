@@ -1,11 +1,13 @@
 tpl ChangeLog
 =============
 
-Version 1.5 (2009-06-01)
+Version 1.5 (2010-02-05)
 --------------------------
+* tpl now builds on Microsoft Visual Studio 2008 or 2010! (thanks, degski and 张亚霏!)
+  The VS2008 Solution is available for download, containing pre-built 32- and 64-bit DLL's.
 * fixed a bug in `tpl_dump` observed on 64-bit, big-endian platforms
-* passing an invalid format string to `tpl_map` is now a fatal error
-* added an example of using `setjmp` and `longjmp` in a fatal handler
+* added an example of using `setjmp` and `longjmp` within an "oops" error handler hook
+* tpl has been downloaded 4,195 times.
 
 
 Version 1.4 (2009-04-21)
@@ -51,3 +53,6 @@ Version 1.1 (2007-04-25)
 Version 1.0 (2006-09-28)
 --------------------------
 * Initial version
+
+// vim: set tw=80 wm=2 nowrap syntax=asciidoc:
+

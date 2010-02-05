@@ -13,8 +13,8 @@
 <h1>tpl User Guide</h1>
 <span id="author">Troy D. Hanson</span><br />
 <span id="email"><tt>&lt;<a href="mailto:thanson@users.sourceforge.net">thanson@users.sourceforge.net</a>&gt;</tt></span><br />
-<span id="revision">version 1.4,</span>
-April 2009
+<span id="revision">version 1.5,</span>
+February 2010
 </div>
 <div id="preamble">
 <div class="sectionbody">
@@ -180,7 +180,7 @@ are made with regard to floating point portability.</em> That said, because many
 modern CPU&#8217;s use IEEE 754 floating point representation, data is likely to be
 portable among them.</p></div>
 <h3 id="_xml_and_perl">XML and Perl</h3><div style="clear:left"></div>
-<div class="paragraph"><p><em>Note: The <tt>tplxml</tt> utility and the Perl module are currently unsupported in tpl 1.4.</em></p></div>
+<div class="paragraph"><p><em>Note: The <tt>tplxml</tt> utility and the Perl module are currently unsupported in tpl 1.5.</em></p></div>
 <h4 id="_xml">XML</h4>
 <div class="paragraph"><p>While a tpl image is a binary entity, you can view any tpl image in XML format
 using the included <tt>tplxml</tt> utility, located in the <tt>lang/perl</tt> directory.</p></div>
@@ -225,7 +225,7 @@ OpenBSD
 </li>
 <li>
 <p>
-Windows (using Cygwin or MinGW)
+Windows using Visual Studio 2008 or 2010, or Cygwin or MinGW
 </p>
 </li>
 </ul></div>
@@ -251,14 +251,6 @@ News
 </span>.
 </p>
 </dd>
-<dt class="hdlist1">
-Wiki
-</dt>
-<dd>
-<p>
- Supplemental information may be found on the <a href="http://apps.sourceforge.net/mediawiki/tpl/">tpl wiki</a>.
-</p>
-</dd>
 </dl></div>
 </div>
 <h2 id="_build_and_install">Build and install</h2>
@@ -269,8 +261,7 @@ Alternatively, you can build tpl as a library and link it to your program.</p></
 <h3 id="_as_source">As source</h3><div style="clear:left"></div>
 <div class="paragraph"><p>The simplest way to use tpl is to copy the source files <tt>tpl.h</tt> and <tt>tpl.c</tt>
 (from the <tt>src/</tt> directory) right into your project, and build them with the
-rest of your source files. No special compiler flags are required. (Note to
-<strong>MinGW</strong> and <strong>Cygwin</strong> users: tpl must be built as a library on these platforms.)</p></div>
+rest of your source files. No special compiler flags are required.</p></div>
 <h3 id="_as_a_library">As a library</h3><div style="clear:left"></div>
 <div class="paragraph"><p>Alternatively, to build tpl as a library, from the top-level directory, run:</p></div>
 <div class="literalblock">
@@ -290,6 +281,23 @@ directory can be customized using <tt>./configure --prefix=/some/directory</tt>.
 <pre><tt>cd tests/
 make</tt></pre>
 </div></div>
+<h3 id="_on_windows">On Windows</h3><div style="clear:left"></div>
+<h4 id="_dll">DLL</h4>
+<div class="paragraph"><p>On the tpl home page, a Visual Studio 2008 solution package is available for
+download.  This zip file contains pre-built 32- and 64-bit versions of tpl as a
+DLL.  If you like, you can build the DLL yourself using  VS2008 or VS2010 (the
+free Express Edition is sufficient) by opening the solution file and choosing
+Build Solution.</p></div>
+<h4 id="_non_dll_usage">Non-DLL usage</h4>
+<div class="paragraph"><p>Alternatively, tpl can be used directly (instead of as a DLL) by compiling
+the tpl sources right into your program. To do this, add <tt>tpl.c</tt>, <tt>tpl.h</tt>,
+<tt>win/mman.h</tt> and <tt>win/mmap.c</tt> to your program&#8217;s source and header files and
+add the preprocessor definition <tt>TPL_NOLIB</tt>.</p></div>
+<h4 id="_mingw_cygwin">MinGW/Cygwin</h4>
+<div class="paragraph"><p>Prior to tpl release 1.5, using tpl on Windows required building it with MinGW
+or Cygwin. This is no longer necessary. If you want to build it that way anyway,
+use the non-Windows (i.e. tar.bz2) tpl download and follow the "configure; make;
+make install" approach.</p></div>
 </div>
 <h2 id="_api_concepts">API concepts</h2>
 <div class="sectionbody">
@@ -1523,8 +1531,8 @@ descriptor to close on a non-positive return value.</p></div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 1.4<br />
-Last updated 2009-05-26 18:26:11 EDT
+Version 1.5<br />
+Last updated 2010-02-05 04:37:37 EDT
 </div>
 </div>
 </body>
