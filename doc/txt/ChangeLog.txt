@@ -3,16 +3,14 @@ tpl ChangeLog
 
 Version 1.5 (2010-02-05)
 --------------------------
-* tpl now builds on Microsoft Visual Studio 2008 or 2010! (thanks, degski and 张亚霏!)
-  The VS2008 Solution is available for download, containing pre-built 32- and 64-bit DLL's.
-* fixed a bug in `tpl_dump` observed on 64-bit, big-endian platforms
+* tpl now builds as a DLL under Microsoft Visual Studio! (thanks, degski and Zhang Yafei!)
+* as a result, there are now two separate file download options:
+ - unix tarball: http://downloads.sourceforge.net/tpl/libtpl-1.5.tar.bz2[tpl-1.5.tar.bz2] and
+ - Visual Studio solution: http://downloads.sourceforge.net/tpl/tpl-1.5-vs2008.zip[tpl-1.5-vs2008.zip] 
+* fixed a bug in `tpl_dump` on 64-bit, big-endian platforms
 * switched some pointer arithmetic casts from long to uintptr_t since learning
-  that 64-bit Windows has 32-bit longs. This is the only platform I've seen that
-  deviates from the "LP64" model.
-* added an example of using `setjmp` and `longjmp` within an "oops" error handler hook
-* The primary source repository for tpl is now my own git repo on tkhanson.net.
-  For now I plan to sync back changes to SourceForge SVN but may discontinue
-  that at some point.
+  that 64-bit Windows has 32-bit longs. 
+* added an example of using setjmp and longjmp within an "oops" error handler hook
 * tpl has been downloaded 4,195 times.
 
 
