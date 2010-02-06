@@ -404,7 +404,21 @@ fixed a bug in <tt>tpl_dump</tt> observed on 64-bit, big-endian platforms
 </li>
 <li>
 <p>
+switched some pointer arithmetic casts from long to uintptr_t since learning
+  that 64-bit Windows has 32-bit longs. This is the only platform I&#8217;ve seen that
+  deviates from the "LP64" model.
+</p>
+</li>
+<li>
+<p>
 added an example of using <tt>setjmp</tt> and <tt>longjmp</tt> within an "oops" error handler hook
+</p>
+</li>
+<li>
+<p>
+The primary source repository for tpl is now my own git repo on tkhanson.net.
+  For now I plan to sync back changes to SourceForge SVN but may discontinue
+  that at some point.
 </p>
 </li>
 <li>
@@ -588,7 +602,7 @@ Initial version
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2010-02-05 04:42:35 EDT
+Last updated 2010-02-05 20:24:09 EDT
 </div>
 </div>
 </body>
