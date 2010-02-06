@@ -301,7 +301,7 @@ char *calc_field_addr(tpl_node *parent, int type,char *struct_addr, int ordinal)
         align_sz = tpl_types[type].sz;
         break;
     }
-    offset = ((long)prev->addr - (long)struct_addr)
+    offset = ((uintptr_t)prev->addr - (uintptr_t)struct_addr)
             + (tpl_types[prev->type].sz * prev->num);
     offset = (offset + align_sz - 1) / align_sz * align_sz;
     return struct_addr + offset;
@@ -787,7 +787,7 @@ static tpl_node *tpl_find_i(tpl_node *n, int i) {
 
 static void *tpl_cpv(void *datav, void *data, size_t sz) {
     if (sz>0) memcpy(datav,data,sz);
-    return (void*)((long)datav + sz);
+    return (void*)((uintptr_t)datav + sz);
 }
 
 static void *tpl_extend_backbone(tpl_node *n) {
@@ -796,7 +796,7 @@ static void *tpl_extend_backbone(tpl_node *n) {
       ((tpl_atyp*)(n->data))->sz );  /* datum hangs on coattails of bb */
     if (!bb) fatal_oom();
 #if __STDC_VERSION__ < 199901
-    bb->data = (char*)((long)bb + sizeof(tpl_backbone)); 
+    bb->data = (char*)((uintptr_t)bb + sizeof(tpl_backbone)); 
 #endif
     memset(bb->data,0,((tpl_atyp*)(n->data))->sz);
     bb->next = NULL;
@@ -856,7 +856,7 @@ static void *tpl_dump_atyp(tpl_node *n, tpl_atyp* at, void *dv) {
                 case TPL_TYPE_INT16:
                 case TPL_TYPE_UINT16:
                     dv = tpl_cpv(dv,datav,tpl_types[c->type].sz * c->num);
-                    datav = (void*)((long)datav + tpl_types[c->type].sz * c->num);
+                    datav = (void*)((uintptr_t)datav + tpl_types[c->type].sz * c->num);
                     break;
                 case TPL_TYPE_BIN:
                     /* dump the buffer length followed by the buffer */
@@ -864,7 +864,7 @@ static void *tpl_dump_atyp(tpl_node *n, tpl_atyp* at, void *dv) {
                     slen = binp->sz;
                     dv = tpl_cpv(dv,&slen,sizeof(uint32_t));
                     dv = tpl_cpv(dv,binp->addr,slen);
-                    datav = (void*)((long)datav + sizeof(tpl_bin*));
+                    datav = (void*)((uintptr_t)datav + sizeof(tpl_bin*));
                     break;
                 case TPL_TYPE_STR:
                     /* dump the string length followed by the string */
@@ -873,13 +873,13 @@ static void *tpl_dump_atyp(tpl_node *n, tpl_atyp* at, void *dv) {
                       slen = strp ? (strlen(strp)+1) : 0;
                       dv = tpl_cpv(dv,&slen,sizeof(uint32_t));
                       if (slen > 1) dv = tpl_cpv(dv,strp,slen-1);
-                      datav = (void*)((long)datav + sizeof(char*));
+                      datav = (void*)((uintptr_t)datav + sizeof(char*));
                     }
                     break;
                 case TPL_TYPE_ARY:
                     memcpy(&atypp,datav,sizeof(tpl_atyp*)); /* cp to aligned */
                     dv = tpl_dump_atyp(c,atypp,dv);
-                    datav = (void*)((long)datav + sizeof(void*));
+                    datav = (void*)((uintptr_t)datav + sizeof(void*));
                     break;
                 case TPL_TYPE_POUND:
                     /* iterate over the preceding nodes */
@@ -1175,7 +1175,7 @@ static int tpl_sanity(tpl_node *r, int excess_ok) {
     if (bufsz < (4 + sizeof(uint32_t) + 1)) return ERR_NOT_MINSIZE; /* min sz: magic+flags+len+nul */
     if (memcmp(dv,TPL_MAGIC, 3) != 0) return ERR_MAGIC_MISMATCH; /* missing tpl magic prefix */
     if (tpl_needs_endian_swap(dv)) ((tpl_root_data*)(r->data))->flags |= TPL_XENDIAN;
-    dv = (void*)((long)dv + 3);
+    dv = (void*)((uintptr_t)dv + 3);
     memcpy(&intlflags,dv,sizeof(char));  /* extract flags */
     if (intlflags & ~TPL_SUPPORTED_BITFLAGS) return ERR_UNSUPPORTED_FLAGS;
     /* TPL1.3 stores strings with a "length+1" prefix to discern NULL strings from
@@ -1184,25 +1184,25 @@ static int tpl_sanity(tpl_node *r, int excess_ok) {
     if (!(intlflags & TPL_FL_NULLSTRINGS)) {
       ((tpl_root_data*)(r->data))->flags |= TPL_OLD_STRING_FMT;
     }
-    dv = (void*)((long)dv + 1);
+    dv = (void*)((uintptr_t)dv + 1);
     memcpy(&intlsz,dv,sizeof(uint32_t));  /* extract internal size */
     if (((tpl_root_data*)(r->data))->flags & TPL_XENDIAN) tpl_byteswap(&intlsz, sizeof(uint32_t));
     if (!excess_ok && (intlsz != bufsz)) return ERR_INCONSISTENT_SZ;  /* inconsisent buffer/internal size */
-    dv = (void*)((long)dv + sizeof(uint32_t));
+    dv = (void*)((uintptr_t)dv + sizeof(uint32_t));
 
     /* dv points to the start of the format string. Look for nul w/in buf sz */
     fmt = (char*)dv;
-    while ((long)dv-(long)d < bufsz && !found_nul) {
+    while ((uintptr_t)dv-(uintptr_t)d < bufsz && !found_nul) {
         if ( (c = *(char*)dv) != '\0') {
             if (strchr(tpl_fmt_chars,c) == NULL) 
                return ERR_FMT_INVALID;  /* invalid char in format string */
             if ( (c = *(char*)dv) == '#') octothorpes++;
-            dv = (void*)((long)dv + 1);
+            dv = (void*)((uintptr_t)dv + 1);
         }
         else found_nul = 1;
     }
     if (!found_nul) return ERR_FMT_MISSING_NUL;  /* runaway format string */
-    dv = (void*)((long)dv + 1);   /* advance to octothorpe lengths buffer */
+    dv = (void*)((uintptr_t)dv + 1);   /* advance to octothorpe lengths buffer */
     
     /* compare the map format to the format of this tpl image */
     mapfmt = tpl_fmt(r);
@@ -1210,20 +1210,20 @@ static int tpl_sanity(tpl_node *r, int excess_ok) {
     if (rc != 0) return ERR_FMT_MISMATCH; 
 
     /* compare octothorpe lengths in image to the mapped values */
-    if ((((long)dv + (octothorpes * 4)) - (long)d) > bufsz) return ERR_INCONSISTENT_SZ4;
+    if ((((uintptr_t)dv + (octothorpes * 4)) - (uintptr_t)d) > bufsz) return ERR_INCONSISTENT_SZ4;
     fxlens = tpl_fxlens(r,&num_fxlens);  /* mapped fxlens */
     while(num_fxlens--) {
         memcpy(&flen,dv,sizeof(uint32_t)); /* stored flen */
         if (((tpl_root_data*)(r->data))->flags & TPL_XENDIAN) tpl_byteswap(&flen, sizeof(uint32_t));
         if (flen != *fxlens) return ERR_FLEN_MISMATCH;
-        dv = (void*)((long)dv + sizeof(uint32_t));
+        dv = (void*)((uintptr_t)dv + sizeof(uint32_t));
         fxlens++;
     }
 
     /* dv now points to beginning of data */
     rc = tpl_serlen(r,r,dv,&serlen);  /* get computed serlen of data part */
     if (rc == -1) return ERR_INCONSISTENT_SZ2; /* internal inconsistency in tpl image */
-    serlen += ((long)dv - (long)d);   /* add back serlen of preamble part */
+    serlen += ((uintptr_t)dv - (uintptr_t)d);   /* add back serlen of preamble part */
     if (excess_ok && (bufsz < serlen)) return ERR_INCONSISTENT_SZ3;  
     if (!excess_ok && (serlen != bufsz)) return ERR_INCONSISTENT_SZ3;  /* buffer/internal sz exceeds serlen */
     return 0;
@@ -1231,14 +1231,14 @@ static int tpl_sanity(tpl_node *r, int excess_ok) {
 
 static void *tpl_find_data_start(void *d) {
     int octothorpes=0;
-    d = (void*)((long)d + 4); /* skip TPL_MAGIC and flags byte */
-    d = (void*)((long)d + 4); /* skip int32 overall len */
+    d = (void*)((uintptr_t)d + 4); /* skip TPL_MAGIC and flags byte */
+    d = (void*)((uintptr_t)d + 4); /* skip int32 overall len */
     while(*(char*)d != '\0') {
         if (*(char*)d == '#') octothorpes++;
-        d = (void*)((long)d + 1);
+        d = (void*)((uintptr_t)d + 1);
     }
-    d = (void*)((long)d +  1);  /* skip NUL */
-    d = (void*)((long)d +  (octothorpes * sizeof(uint32_t)));  /* skip # array lens */
+    d = (void*)((uintptr_t)d +  1);  /* skip NUL */
+    d = (void*)((uintptr_t)d +  (octothorpes * sizeof(uint32_t)));  /* skip # array lens */
     return d;
 }
 
@@ -1306,21 +1306,21 @@ TPL_API char* tpl_peek(int mode, ...) {
     if (memcmp(dv,TPL_MAGIC, 3) != 0) goto fail; /* missing tpl magic prefix */
     if (tpl_needs_endian_swap(dv)) xendian=1;
     if ((((char*)dv)[3] & TPL_FL_NULLSTRINGS)==0) old_string_format=1;
-    dv = (void*)((long)dv + 4);
+    dv = (void*)((uintptr_t)dv + 4);
     memcpy(&intlsz,dv,sizeof(uint32_t));  /* extract internal size */
     if (xendian) tpl_byteswap(&intlsz, sizeof(uint32_t));
     if (intlsz != sz) goto fail;  /* inconsisent buffer/internal size */
-    dv = (void*)((long)dv + sizeof(uint32_t));
+    dv = (void*)((uintptr_t)dv + sizeof(uint32_t));
 
     /* dv points to the start of the format string. Look for nul w/in buf sz */
     fmt = (char*)dv;
-    while ((long)dv-(long)addr < sz && !found_nul) {
+    while ((uintptr_t)dv-(uintptr_t)addr < sz && !found_nul) {
         if ( (c = *(char*)dv) == '\0') {
             found_nul = 1;
         } else if (c == '#') {
           num_fxlens++;
         }
-        dv = (void*)((long)dv + 1);
+        dv = (void*)((uintptr_t)dv + 1);
     }
     if (!found_nul) goto fail;  /* runaway format string */
     fmt_len = (char*)dv - fmt;  /* include space for \0 */
@@ -1332,7 +1332,7 @@ TPL_API char* tpl_peek(int mode, ...) {
 
     /* retrieve the octothorpic lengths if requested */
     if (num_fxlens > 0) {
-      if (sz < ((long)dv + (num_fxlens * sizeof(uint32_t)) - (long)addr)) {
+      if (sz < ((uintptr_t)dv + (num_fxlens * sizeof(uint32_t)) - (uintptr_t)addr)) {
         goto fail;
       }
     }
@@ -1344,7 +1344,7 @@ TPL_API char* tpl_peek(int mode, ...) {
       while(num_fxlens--) {
           memcpy(fxlensv,dv,sizeof(uint32_t)); 
           if (xendian) tpl_byteswap(fxlensv, sizeof(uint32_t));
-          dv = (void*)((long)dv + sizeof(uint32_t));
+          dv = (void*)((uintptr_t)dv + sizeof(uint32_t));
           fxlensv++;
       }
     }
@@ -1367,11 +1367,11 @@ TPL_API char* tpl_peek(int mode, ...) {
        }
 
        /* advance to data start, then copy out requested elements */
-       dv = (void*)((long)dv +  (num_fxlens * sizeof(uint32_t)));  
+       dv = (void*)((uintptr_t)dv +  (num_fxlens * sizeof(uint32_t)));  
        for(datapeek_c = datapeek_f; *datapeek_c != '\0'; datapeek_c++) {
          datapeek_p = va_arg(ap, void*);
          if (*datapeek_c == 's') {  /* special handling for strings */
-           if ((long)dv-(long)addr + sizeof(uint32_t) > sz) {
+           if ((uintptr_t)dv-(uintptr_t)addr + sizeof(uint32_t) > sz) {
              tpl_hook.oops("tpl_peek: tpl has insufficient length\n");
              tpl_hook.free(fmt_cpy); fmt_cpy = NULL; /* fail */
              goto fail;
@@ -1379,10 +1379,10 @@ TPL_API char* tpl_peek(int mode, ...) {
            memcpy(&datapeek_ssz,dv,sizeof(uint32_t)); /* get slen */
            if (xendian) tpl_byteswap(&datapeek_ssz, sizeof(uint32_t));
            if (old_string_format) datapeek_ssz++;
-           dv = (void*)((long)dv + sizeof(uint32_t)); /* adv. to str */
+           dv = (void*)((uintptr_t)dv + sizeof(uint32_t)); /* adv. to str */
            if (datapeek_ssz == 0) datapeek_s = NULL;
            else {
-             if ((long)dv-(long)addr + datapeek_ssz-1 > sz) {
+             if ((uintptr_t)dv-(uintptr_t)addr + datapeek_ssz-1 > sz) {
                tpl_hook.oops("tpl_peek: tpl has insufficient length\n");
                tpl_hook.free(fmt_cpy); fmt_cpy = NULL; /* fail */
                goto fail;
@@ -1391,19 +1391,19 @@ TPL_API char* tpl_peek(int mode, ...) {
              if (datapeek_s == NULL) fatal_oom();
              memcpy(datapeek_s, dv, datapeek_ssz-1);
              datapeek_s[datapeek_ssz-1] = '\0';
-             dv = (void*)((long)dv + datapeek_ssz-1);
+             dv = (void*)((uintptr_t)dv + datapeek_ssz-1);
            }
            *(char**)datapeek_p = datapeek_s;
          } else {
            datapeek_csz = tpl_size_for(*datapeek_c);
-           if ((long)dv-(long)addr + datapeek_csz > sz) {
+           if ((uintptr_t)dv-(uintptr_t)addr + datapeek_csz > sz) {
              tpl_hook.oops("tpl_peek: tpl has insufficient length\n");
              tpl_hook.free(fmt_cpy); fmt_cpy = NULL; /* fail */
              goto fail;
            }
            memcpy(datapeek_p, dv, datapeek_csz);
            if (xendian) tpl_byteswap(datapeek_p, datapeek_csz);
-           dv = (void*)((long)dv + datapeek_csz);
+           dv = (void*)((uintptr_t)dv + datapeek_csz);
          }
        }
     }
@@ -1572,19 +1572,19 @@ static void tpl_free_atyp(tpl_node *n, tpl_atyp *atyp) {
                 case TPL_TYPE_UINT64:
                 case TPL_TYPE_INT16:
                 case TPL_TYPE_UINT16:
-                    dv = (void*)((long)dv + tpl_types[c->type].sz);
+                    dv = (void*)((uintptr_t)dv + tpl_types[c->type].sz);
                     break;
                 case TPL_TYPE_BIN:
                     memcpy(&binp,dv,sizeof(tpl_bin*)); /* cp to aligned */
                     if (binp->addr) tpl_hook.free( binp->addr ); /* free buf */
                     tpl_hook.free(binp);  /* free tpl_bin */
-                    dv = (void*)((long)dv + sizeof(tpl_bin*));
+                    dv = (void*)((uintptr_t)dv + sizeof(tpl_bin*));
                     break;
                 case TPL_TYPE_STR:
                     for(i=0; i < c->num; i++) {
                       memcpy(&strp,dv,sizeof(char*)); /* cp to aligned */
                       if (strp) tpl_hook.free(strp); /* free string */
-                      dv = (void*)((long)dv + sizeof(char*));
+                      dv = (void*)((uintptr_t)dv + sizeof(char*));
                     }
                     break;
                 case TPL_TYPE_POUND:
@@ -1601,7 +1601,7 @@ static void tpl_free_atyp(tpl_node *n, tpl_atyp *atyp) {
                 case TPL_TYPE_ARY:
                     memcpy(&atypp,dv,sizeof(tpl_atyp*)); /* cp to aligned */
                     tpl_free_atyp(c,atypp);  /* free atyp */
-                    dv = (void*)((long)dv + sizeof(void*));
+                    dv = (void*)((uintptr_t)dv + sizeof(void*));
                     break;
                 default:
                     tpl_hook.fatal("unsupported format character\n");
@@ -1625,16 +1625,16 @@ static int tpl_serlen(tpl_node *r, tpl_node *n, void *dv, size_t *serlen) {
     size_t len=0, alen, buf_past, itermax;
     tpl_pound_data *pd;
 
-    buf_past = ((long)((tpl_root_data*)(r->data))->mmap.text + 
+    buf_past = ((uintptr_t)((tpl_root_data*)(r->data))->mmap.text + 
                       ((tpl_root_data*)(r->data))->mmap.text_sz);
 
     if (n->type == TPL_TYPE_ROOT) num = 1;
     else if (n->type == TPL_TYPE_ARY) {
-        if ((long)dv + sizeof(uint32_t) > buf_past) return -1;
+        if ((uintptr_t)dv + sizeof(uint32_t) > buf_past) return -1;
         memcpy(&num,dv,sizeof(uint32_t));
         if (((tpl_root_data*)(r->data))->flags & TPL_XENDIAN)
              tpl_byteswap(&num, sizeof(uint32_t));
-        dv = (void*)((long)dv + sizeof(uint32_t));
+        dv = (void*)((uintptr_t)dv + sizeof(uint32_t));
         len += sizeof(uint32_t);
     } else tpl_hook.fatal("internal error in tpl_serlen\n");
 
@@ -1651,40 +1651,40 @@ static int tpl_serlen(tpl_node *r, tpl_node *n, void *dv, size_t *serlen) {
                 case TPL_TYPE_INT16:
                 case TPL_TYPE_UINT16:
                     for(fidx=0; fidx < c->num; fidx++) {  /* octothorpe support */
-                        if ((long)dv + tpl_types[c->type].sz > buf_past) return -1;
-                        dv = (void*)((long)dv + tpl_types[c->type].sz);
+                        if ((uintptr_t)dv + tpl_types[c->type].sz > buf_past) return -1;
+                        dv = (void*)((uintptr_t)dv + tpl_types[c->type].sz);
                         len += tpl_types[c->type].sz;
                     }
                     break;
                 case TPL_TYPE_BIN:
                     len += sizeof(uint32_t);
-                    if ((long)dv + sizeof(uint32_t) > buf_past) return -1;
+                    if ((uintptr_t)dv + sizeof(uint32_t) > buf_past) return -1;
                     memcpy(&slen,dv,sizeof(uint32_t));
                     if (((tpl_root_data*)(r->data))->flags & TPL_XENDIAN)
                         tpl_byteswap(&slen, sizeof(uint32_t));
                     len += slen;
-                    dv = (void*)((long)dv + sizeof(uint32_t));
-                    if ((long)dv + slen > buf_past) return -1;
-                    dv = (void*)((long)dv + slen);
+                    dv = (void*)((uintptr_t)dv + sizeof(uint32_t));
+                    if ((uintptr_t)dv + slen > buf_past) return -1;
+                    dv = (void*)((uintptr_t)dv + slen);
                     break;
                 case TPL_TYPE_STR:
                     for(fidx=0; fidx < c->num; fidx++) {  /* octothorpe support */
                       len += sizeof(uint32_t);
-                      if ((long)dv + sizeof(uint32_t) > buf_past) return -1;
+                      if ((uintptr_t)dv + sizeof(uint32_t) > buf_past) return -1;
                       memcpy(&slen,dv,sizeof(uint32_t));
                       if (((tpl_root_data*)(r->data))->flags & TPL_XENDIAN)
                           tpl_byteswap(&slen, sizeof(uint32_t));
                       if (!(((tpl_root_data*)(r->data))->flags & TPL_OLD_STRING_FMT))
                          slen = (slen>1) ? (slen-1) : 0;
                       len += slen;
-                      dv = (void*)((long)dv + sizeof(uint32_t));
-                      if ((long)dv + slen > buf_past) return -1;
-                      dv = (void*)((long)dv + slen);
+                      dv = (void*)((uintptr_t)dv + sizeof(uint32_t));
+                      if ((uintptr_t)dv + slen > buf_past) return -1;
+                      dv = (void*)((uintptr_t)dv + slen);
                     }
                     break;
                 case TPL_TYPE_ARY:
                     if ( tpl_serlen(r,c,dv, &alen) == -1) return -1;
-                    dv = (void*)((long)dv + alen);
+                    dv = (void*)((uintptr_t)dv + alen);
                     len += alen;
                     break;
                 case TPL_TYPE_POUND:
@@ -1983,15 +1983,15 @@ TPL_API int tpl_unpack(tpl_node *r, int i) {
                 /* unpack elements of cross-endian octothorpic array individually */
                 if (((tpl_root_data*)(r->data))->flags & TPL_XENDIAN) {
                     for(fidx=0; fidx < c->num; fidx++) {
-                        caddr = (void*)((long)c->addr + (fidx * tpl_types[c->type].sz));
+                        caddr = (void*)((uintptr_t)c->addr + (fidx * tpl_types[c->type].sz));
                         memcpy(caddr,dv,tpl_types[c->type].sz);
                         tpl_byteswap(caddr, tpl_types[c->type].sz);
-                        dv = (void*)((long)dv + tpl_types[c->type].sz);
+                        dv = (void*)((uintptr_t)dv + tpl_types[c->type].sz);
                     }
                 } else {
                     /* bulk unpack ok if not cross-endian */
                     memcpy(c->addr, dv, tpl_types[c->type].sz * c->num);
-                    dv = (void*)((long)dv + tpl_types[c->type].sz * c->num);
+                    dv = (void*)((uintptr_t)dv + tpl_types[c->type].sz * c->num);
                 }
                 break;
             case TPL_TYPE_BIN:
@@ -2002,11 +2002,11 @@ TPL_API int tpl_unpack(tpl_node *r, int i) {
                     str = (char*)tpl_hook.malloc(slen);
                     if (!str) fatal_oom();
                 } else str=NULL;
-                dv = (void*)((long)dv + sizeof(uint32_t));
+                dv = (void*)((uintptr_t)dv + sizeof(uint32_t));
                 if (slen>0) memcpy(str,dv,slen);
                 memcpy(&(((tpl_bin*)c->addr)->addr),&str,sizeof(void*));
                 memcpy(&(((tpl_bin*)c->addr)->sz),&slen,sizeof(uint32_t));
-                dv = (void*)((long)dv + slen);
+                dv = (void*)((uintptr_t)dv + slen);
                 break;
             case TPL_TYPE_STR:
                 for(fidx=0; fidx < c->num; fidx++) {
@@ -2015,13 +2015,13 @@ TPL_API int tpl_unpack(tpl_node *r, int i) {
                       tpl_byteswap(&slen, sizeof(uint32_t));
                   if (((tpl_root_data*)(r->data))->flags & TPL_OLD_STRING_FMT)
                     slen += 1;
-                  dv = (void*)((long)dv + sizeof(uint32_t));
+                  dv = (void*)((uintptr_t)dv + sizeof(uint32_t));
                   if (slen) {  /* slen includes \0 */
                     str = (char*)tpl_hook.malloc(slen);
                     if (!str) fatal_oom();
                     if (slen>1) memcpy(str,dv,slen-1);
                     str[slen-1] = '\0'; /* nul terminate */
-                    dv = (void*)((long)dv + slen-1);
+                    dv = (void*)((uintptr_t)dv + slen-1);
                   } else str=NULL;
                   memcpy(&((char**)c->addr)[fidx],&str,sizeof(char*));
                 }
@@ -2055,8 +2055,8 @@ TPL_API int tpl_unpack(tpl_node *r, int i) {
                 memcpy( &((tpl_atyp*)(c->data))->num, dv, sizeof(uint32_t));
                 if (((tpl_root_data*)(r->data))->flags & TPL_XENDIAN)
                     tpl_byteswap(&((tpl_atyp*)(c->data))->num, sizeof(uint32_t));
-                ((tpl_atyp*)(c->data))->cur = (void*)((long)dv+sizeof(uint32_t));
-                dv = (void*)((long)dv + A_bytes);
+                ((tpl_atyp*)(c->data))->cur = (void*)((uintptr_t)dv+sizeof(uint32_t));
+                dv = (void*)((uintptr_t)dv + A_bytes);
                 break;
             default:
                 tpl_hook.fatal("unsupported format character\n");
@@ -2093,15 +2093,15 @@ static int tpl_unpackA0(tpl_node *r) {
             case TPL_TYPE_INT16:
             case TPL_TYPE_UINT16:
                 for(fidx=0;fidx < c->num; fidx++) {
-                    dv = (void*)((long)dv + tpl_types[c->type].sz);
+                    dv = (void*)((uintptr_t)dv + tpl_types[c->type].sz);
                 }
                 break;
             case TPL_TYPE_BIN:
                 memcpy(&slen,dv,sizeof(uint32_t));
                 if (((tpl_root_data*)(r->data))->flags & TPL_XENDIAN)
                     tpl_byteswap(&slen, sizeof(uint32_t));
-                dv = (void*)((long)dv + sizeof(uint32_t));
-                dv = (void*)((long)dv + slen);
+                dv = (void*)((uintptr_t)dv + sizeof(uint32_t));
+                dv = (void*)((uintptr_t)dv + slen);
                 break;
             case TPL_TYPE_STR:
                 for(i=0; i<c->num; i++) {
@@ -2110,8 +2110,8 @@ static int tpl_unpackA0(tpl_node *r) {
                       tpl_byteswap(&slen, sizeof(uint32_t));
                   if (((tpl_root_data*)(r->data))->flags & TPL_OLD_STRING_FMT)
                     slen += 1;
-                  dv = (void*)((long)dv + sizeof(uint32_t));
-                  if (slen>1) dv = (void*)((long)dv + slen-1);
+                  dv = (void*)((uintptr_t)dv + sizeof(uint32_t));
+                  if (slen>1) dv = (void*)((uintptr_t)dv + slen-1);
                 }
                 break;
             case TPL_TYPE_POUND:
@@ -2131,8 +2131,8 @@ static int tpl_unpackA0(tpl_node *r) {
                 memcpy( &((tpl_atyp*)(c->data))->num, dv, sizeof(uint32_t));
                 if (((tpl_root_data*)(r->data))->flags & TPL_XENDIAN)
                     tpl_byteswap(&((tpl_atyp*)(c->data))->num, sizeof(uint32_t));
-                ((tpl_atyp*)(c->data))->cur = (void*)((long)dv+sizeof(uint32_t));
-                dv = (void*)((long)dv + A_bytes);
+                ((tpl_atyp*)(c->data))->cur = (void*)((uintptr_t)dv+sizeof(uint32_t));
+                dv = (void*)((uintptr_t)dv + A_bytes);
                 break;
             default:
                 tpl_hook.fatal("unsupported format character\n");
