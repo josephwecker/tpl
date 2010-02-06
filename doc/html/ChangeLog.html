@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.3.4" />
+<meta name="generator" content="AsciiDoc 8.5.0" />
 <title>tpl ChangeLog</title>
 <style type="text/css">
 /* Debug borders */
@@ -91,7 +91,7 @@ span#author {
 }
 span#email {
 }
-span#revision {
+span#revnumber, span#revdate, span#revremark {
   font-family: sans-serif;
 }
 
@@ -118,8 +118,7 @@ div#preamble {
 div.tableblock, div.imageblock, div.exampleblock, div.verseblock,
 div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
 div.admonitionblock {
-  margin-right: 10%;
-  margin-top: 1.5em;
+  margin-top: 0.25em;
   margin-bottom: 1.5em;
 }
 div.admonitionblock {
@@ -160,9 +159,6 @@ div.sidebarblock > div.content {
   padding: 0.5em;
 }
 
-div.listingblock {
-  margin-right: 0%;
-}
 div.listingblock > div.content {
   border: 1px solid silver;
   background: #f4f4f4;
@@ -171,6 +167,7 @@ div.listingblock > div.content {
 
 div.quoteblock {
   padding-left: 2.0em;
+  margin-right: 10%;
 }
 div.quoteblock > div.attribution {
   padding-top: 0.5em;
@@ -179,6 +176,7 @@ div.quoteblock > div.attribution {
 
 div.verseblock {
   padding-left: 2.0em;
+  margin-right: 10%;
 }
 div.verseblock > div.content {
   white-space: pre;
@@ -211,8 +209,8 @@ div.exampleblock > div.content {
 }
 
 div.imageblock div.content { padding-left: 0; }
-div.imageblock img { border: 1px solid silver; }
 span.image img { border-style: none; }
+a.image:visited { color: white; }
 
 dl {
   margin-top: 0.8em;
@@ -398,20 +396,13 @@ tpl now builds as a DLL under Microsoft Visual Studio! (thanks, degski and Zhang
 </li>
 <li>
 <p>
-as a result, there are now two separate file download options:
-</p>
-<div class="ulist"><ul>
-<li>
-<p>
-unix tarball: <a href="http://downloads.sourceforge.net/tpl/libtpl-1.5.tar.bz2">tpl-1.5.tar.bz2</a> and
+there are now two download options: the <a href="http://downloads.sourceforge.net/tpl/libtpl-1.5.tar.bz2">tarball</a> and the Visual Studio <a href="http://downloads.sourceforge.net/tpl/tpl-1.5-vs2008.zip">solution</a>
 </p>
 </li>
 <li>
 <p>
-Visual Studio solution: <a href="http://downloads.sourceforge.net/tpl/tpl-1.5-vs2008.zip">tpl-1.5-vs2008.zip</a>
+a crash in <tt>tpl_free</tt> on certain format strings has been fixed (thanks, Eric Rose!)
 </p>
-</li>
-</ul></div>
 </li>
 <li>
 <p>
@@ -420,13 +411,7 @@ fixed a bug in <tt>tpl_dump</tt> on 64-bit, big-endian platforms
 </li>
 <li>
 <p>
-switched some pointer arithmetic casts from long to uintptr_t since learning
-  that 64-bit Windows has 32-bit longs.
-</p>
-</li>
-<li>
-<p>
-added an example of using setjmp and longjmp within an "oops" error handler hook
+changed some pointer casts from <tt>long</tt> to <tt>uintptr_t</tt> since 64-bit Windows has 32-bit longs
 </p>
 </li>
 <li>
@@ -476,7 +461,7 @@ implement <tt>TPL_GETSIZE</tt> flag for <tt>tpl_dump</tt> to get dump size witho
 </li>
 <li>
 <p>
-fix success return code from <tt>tpl_dump(TPL_FD,&#8230;)</tt> (thanks, Max Lapan!)
+fix success return code from <tt>tpl_dump(TPL_FD,...)</tt> (thanks, Max Lapan!)
 </p>
 </li>
 <li>
@@ -511,7 +496,7 @@ added <tt>tpl_jot</tt>
 </li>
 <li>
 <p>
-added support for fixed-length arrays of structures <tt>S(&#8230;)#</tt>
+added support for fixed-length arrays of structures <tt>S(...)#</tt>
 </p>
 </li>
 <li>
@@ -552,7 +537,7 @@ added PDF user guide
 <li>
 <p>
 added <a href="http://troydhanson.wordpress.com/feed/">update news</a> <span class="image">
-<img src="img/rss.png" alt="(RSS)" title="(RSS)" />
+<img src="img/rss.png" alt="(RSS)" />
 </span>
 </p>
 </li>
@@ -610,7 +595,7 @@ Initial version
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2010-02-05 21:59:35 EDT
+Last updated 2010-02-05 19:31:37 PDT
 </div>
 </div>
 </body>
