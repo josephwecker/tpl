@@ -1572,7 +1572,7 @@ static void tpl_free_atyp(tpl_node *n, tpl_atyp *atyp) {
                 case TPL_TYPE_UINT64:
                 case TPL_TYPE_INT16:
                 case TPL_TYPE_UINT16:
-                    dv = (void*)((uintptr_t)dv + tpl_types[c->type].sz);
+                    dv = (void*)((uintptr_t)dv + tpl_types[c->type].sz*c->num);
                     break;
                 case TPL_TYPE_BIN:
                     memcpy(&binp,dv,sizeof(tpl_bin*)); /* cp to aligned */
