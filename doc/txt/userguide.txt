@@ -791,7 +791,7 @@ The first argument is the `tpl_node*` and the second is one of these constants:
     mode, as shown <<excess_ok,here.>>
 `TPL_GETSIZE`::
     This special mode does not actually dump the tpl. Instead it places the size
-    that the dump 'would' require into the `uint32_t` pointed to by the
+    that the dump 'would' require into the `size_t` pointed to by the
     following argument.
 
 The return value is 0 on success, or -1 on error. 

@@ -1,6 +1,15 @@
 tpl ChangeLog
 =============
 
+Version 1.6 (2010-??-??)
+--------------------------
+* Fixed a bug in the Windows version of tpl that prevented an application
+  from serializing more than once to the same file- the file stayed locked until
+	the application was closed. (thanks, Werner Krattenthaler!)
+* Fixed a documentation error to indicate that `tpl_dump` when used in the
+	`TPL_GETSIZE` mode stores its result in a `size_t` rather than a `uint32_t`
+	(thanks, M. Nunberge!)
+
 Version 1.5 (2010-02-05)
 --------------------------
 * tpl now builds as a DLL under Microsoft Visual Studio! (thanks, degski and Zhang Yafei!)

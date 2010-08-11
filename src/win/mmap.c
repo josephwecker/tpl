@@ -108,6 +108,7 @@ void *mmap(void *addr, unsigned int len, int prot, int flags, int fd, unsigned i
 		CloseHandle(h);
 		return MAP_FAILED;
 	}
+	CloseHandle(h); /* ok to call UnmapViewOfFile after this */
 	
 	/* All fine */
 	return region;
