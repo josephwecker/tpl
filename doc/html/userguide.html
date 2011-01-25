@@ -3,19 +3,26 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.3.4" />
+<meta name="generator" content="AsciiDoc 8.5.2" />
 <title>tpl User Guide</title>
 <link rel="stylesheet" href="./tdh.css" type="text/css" />
 <link rel="stylesheet" href="./tdh-quirks.css" type="text/css" />
+<script type="text/javascript">
+/*<![CDATA[*/
+window.onload = function(){asciidoc.footnotes();}
+/*]]>*/
+</script>
+<script type="text/javascript" src="./asciidoc-xhtml11.js"></script>
 </head>
 <body>
 <div id="header">
 <h1>tpl User Guide</h1>
 <span id="author">Troy D. Hanson</span><br />
 <span id="email"><tt>&lt;<a href="mailto:thanson@users.sourceforge.net">thanson@users.sourceforge.net</a>&gt;</tt></span><br />
-<span id="revision">version 1.5,</span>
-February 2010
+<span id="revnumber">version 1.5,</span>
+<span id="revdate">February 2010</span>
 </div>
+<div id="content">
 <div id="preamble">
 <div class="sectionbody">
 <a style="float: right;" href="http://sourceforge.net/projects/tpl"><img src="http://sflogo.sourceforge.net/sflogo.php?group_id=157637&amp;type=16" width="150" height="40" alt="SourceForge.net" /></a>
@@ -247,7 +254,7 @@ News
 <dd>
 <p>
  The author has a news feed for <a href="http://troydhanson.wordpress.com/feed/">software updates</a> <span class="image">
-<img src="img/rss.png" alt="(RSS)" title="(RSS)" />
+<img src="img/rss.png" alt="(RSS)" />
 </span>.
 </p>
 </dd>
@@ -312,37 +319,37 @@ load a tpl image and unpack it (if you&#8217;re deserializing data).</p></div>
 width="50%"
 frame="border"
 cellspacing="0" cellpadding="4">
-<caption class="title">Order of usage</caption>
+<caption class="title">Table 1. Order of usage</caption>
 <col width="9%" />
 <col width="45%" />
 <col width="45%" />
-<thead valign="top">
+<thead>
 <tr>
-<th align="center">Step  </th>
-<th align="center">     If you&#8217;re serializing&#8230;</th>
-<th align="center">      If you&#8217;re deserializing&#8230;</th>
+<th align="center" valign="top">Step  </th>
+<th align="center" valign="top">     If you&#8217;re serializing&#8230;</th>
+<th align="center" valign="top">      If you&#8217;re deserializing&#8230;</th>
 </tr>
 </thead>
-<tbody valign="top">
+<tbody>
 <tr>
-<td align="center"><p class="table">1.</p></td>
-<td align="center"><p class="table"><tt>tpl_map()</tt></p></td>
-<td align="center"><p class="table"><tt>tpl_map()</tt></p></td>
+<td align="center" valign="top"><p class="table">1.</p></td>
+<td align="center" valign="top"><p class="table"><tt>tpl_map()</tt></p></td>
+<td align="center" valign="top"><p class="table"><tt>tpl_map()</tt></p></td>
 </tr>
 <tr>
-<td align="center"><p class="table">2.</p></td>
-<td align="center"><p class="table"><tt>tpl_pack()</tt></p></td>
-<td align="center"><p class="table"><tt>tpl_load()</tt></p></td>
+<td align="center" valign="top"><p class="table">2.</p></td>
+<td align="center" valign="top"><p class="table"><tt>tpl_pack()</tt></p></td>
+<td align="center" valign="top"><p class="table"><tt>tpl_load()</tt></p></td>
 </tr>
 <tr>
-<td align="center"><p class="table">3.</p></td>
-<td align="center"><p class="table"><tt>tpl_dump()</tt></p></td>
-<td align="center"><p class="table"><tt>tpl_unpack()</tt></p></td>
+<td align="center" valign="top"><p class="table">3.</p></td>
+<td align="center" valign="top"><p class="table"><tt>tpl_dump()</tt></p></td>
+<td align="center" valign="top"><p class="table"><tt>tpl_unpack()</tt></p></td>
 </tr>
 <tr>
-<td align="center"><p class="table">4.</p></td>
-<td align="center"><p class="table"><tt>tpl_free()</tt></p></td>
-<td align="center"><p class="table"><tt>tpl_free()</tt></p></td>
+<td align="center" valign="top"><p class="table">4.</p></td>
+<td align="center" valign="top"><p class="table"><tt>tpl_free()</tt></p></td>
+<td align="center" valign="top"><p class="table"><tt>tpl_free()</tt></p></td>
 </tr>
 </tbody>
 </table>
@@ -364,87 +371,87 @@ tn = tpl_map("ci#", &amp;c, i, 10);  /* ci# is our format string */</tt></pre>
 width="90%"
 frame="border"
 cellspacing="0" cellpadding="4">
-<caption class="title">Supported format characters</caption>
+<caption class="title">Table 2. Supported format characters</caption>
 <col width="11%" />
 <col width="44%" />
 <col width="44%" />
-<thead valign="top">
+<thead>
 <tr>
-<th align="center">Type </th>
-<th align="left">  Description                                             </th>
-<th align="left"> Required argument type</th>
+<th align="center" valign="top">Type </th>
+<th align="left" valign="top">  Description                                             </th>
+<th align="left" valign="top"> Required argument type</th>
 </tr>
 </thead>
-<tbody valign="top">
+<tbody>
 <tr>
-<td align="center"><p class="table"><tt>j</tt></p></td>
-<td align="left"><p class="table">16-bit signed int</p></td>
-<td align="left"><p class="table">int16_t* or equivalent</p></td>
+<td align="center" valign="top"><p class="table"><tt>j</tt></p></td>
+<td align="left" valign="top"><p class="table">16-bit signed int</p></td>
+<td align="left" valign="top"><p class="table">int16_t* or equivalent</p></td>
 </tr>
 <tr>
-<td align="center"><p class="table"><tt>v</tt></p></td>
-<td align="left"><p class="table">16-bit unsigned int</p></td>
-<td align="left"><p class="table">uint16_t* or equivalent</p></td>
+<td align="center" valign="top"><p class="table"><tt>v</tt></p></td>
+<td align="left" valign="top"><p class="table">16-bit unsigned int</p></td>
+<td align="left" valign="top"><p class="table">uint16_t* or equivalent</p></td>
 </tr>
 <tr>
-<td align="center"><p class="table"><tt>i</tt></p></td>
-<td align="left"><p class="table">32-bit signed int</p></td>
-<td align="left"><p class="table">int32_t* or equivalent</p></td>
+<td align="center" valign="top"><p class="table"><tt>i</tt></p></td>
+<td align="left" valign="top"><p class="table">32-bit signed int</p></td>
+<td align="left" valign="top"><p class="table">int32_t* or equivalent</p></td>
 </tr>
 <tr>
-<td align="center"><p class="table"><tt>u</tt></p></td>
-<td align="left"><p class="table">32-bit unsigned int</p></td>
-<td align="left"><p class="table">uint32_t* or equivalent</p></td>
+<td align="center" valign="top"><p class="table"><tt>u</tt></p></td>
+<td align="left" valign="top"><p class="table">32-bit unsigned int</p></td>
+<td align="left" valign="top"><p class="table">uint32_t* or equivalent</p></td>
 </tr>
 <tr>
-<td align="center"><p class="table"><tt>I</tt></p></td>
-<td align="left"><p class="table">64-bit signed int</p></td>
-<td align="left"><p class="table">int64_t* or equivalent</p></td>
+<td align="center" valign="top"><p class="table"><tt>I</tt></p></td>
+<td align="left" valign="top"><p class="table">64-bit signed int</p></td>
+<td align="left" valign="top"><p class="table">int64_t* or equivalent</p></td>
 </tr>
 <tr>
-<td align="center"><p class="table"><tt>U</tt></p></td>
-<td align="left"><p class="table">64-bit unsigned int</p></td>
-<td align="left"><p class="table">uint64_t* or equivalent</p></td>
+<td align="center" valign="top"><p class="table"><tt>U</tt></p></td>
+<td align="left" valign="top"><p class="table">64-bit unsigned int</p></td>
+<td align="left" valign="top"><p class="table">uint64_t* or equivalent</p></td>
 </tr>
 <tr>
-<td align="center"><p class="table"><tt>c</tt></p></td>
-<td align="left"><p class="table">character (byte)</p></td>
-<td align="left"><p class="table">char*</p></td>
+<td align="center" valign="top"><p class="table"><tt>c</tt></p></td>
+<td align="left" valign="top"><p class="table">character (byte)</p></td>
+<td align="left" valign="top"><p class="table">char*</p></td>
 </tr>
 <tr>
-<td align="center"><p class="table"><tt>s</tt></p></td>
-<td align="left"><p class="table">string</p></td>
-<td align="left"><p class="table">char**</p></td>
+<td align="center" valign="top"><p class="table"><tt>s</tt></p></td>
+<td align="left" valign="top"><p class="table">string</p></td>
+<td align="left" valign="top"><p class="table">char**</p></td>
 </tr>
 <tr>
-<td align="center"><p class="table"><tt>f</tt></p></td>
-<td align="left"><p class="table">64-bit double precision float</p></td>
-<td align="left"><p class="table">double* (varies by platform)</p></td>
+<td align="center" valign="top"><p class="table"><tt>f</tt></p></td>
+<td align="left" valign="top"><p class="table">64-bit double precision float</p></td>
+<td align="left" valign="top"><p class="table">double* (varies by platform)</p></td>
 </tr>
 <tr>
-<td align="center"><p class="table"><tt>#</tt></p></td>
-<td align="left"><p class="table">array length; modifies preceding <tt>iujvIUcsf</tt> or <tt>S(&#8230;)</tt></p></td>
-<td align="left"><p class="table">int</p></td>
+<td align="center" valign="top"><p class="table"><tt>#</tt></p></td>
+<td align="left" valign="top"><p class="table">array length; modifies preceding <tt>iujvIUcsf</tt> or <tt>S(...)</tt></p></td>
+<td align="left" valign="top"><p class="table">int</p></td>
 </tr>
 <tr>
-<td align="center"><p class="table"><tt>B</tt></p></td>
-<td align="left"><p class="table">binary buffer (arbitrary-length)</p></td>
-<td align="left"><p class="table">tpl_bin*</p></td>
+<td align="center" valign="top"><p class="table"><tt>B</tt></p></td>
+<td align="left" valign="top"><p class="table">binary buffer (arbitrary-length)</p></td>
+<td align="left" valign="top"><p class="table">tpl_bin*</p></td>
 </tr>
 <tr>
-<td align="center"><p class="table"><tt>S</tt></p></td>
-<td align="left"><p class="table">structure (&#8230;)</p></td>
-<td align="left"><p class="table">struct *</p></td>
+<td align="center" valign="top"><p class="table"><tt>S</tt></p></td>
+<td align="left" valign="top"><p class="table">structure (&#8230;)</p></td>
+<td align="left" valign="top"><p class="table">struct *</p></td>
 </tr>
 <tr>
-<td align="center"><p class="table"><tt>$</tt></p></td>
-<td align="left"><p class="table">nested structure (&#8230;)</p></td>
-<td align="left"><p class="table">none</p></td>
+<td align="center" valign="top"><p class="table"><tt>$</tt></p></td>
+<td align="left" valign="top"><p class="table">nested structure (&#8230;)</p></td>
+<td align="left" valign="top"><p class="table">none</p></td>
 </tr>
 <tr>
-<td align="center"><p class="table"><tt>A</tt></p></td>
-<td align="left"><p class="table">array (&#8230;)</p></td>
-<td align="left"><p class="table">none</p></td>
+<td align="center" valign="top"><p class="table"><tt>A</tt></p></td>
+<td align="left" valign="top"><p class="table">array (&#8230;)</p></td>
+<td align="left" valign="top"><p class="table">none</p></td>
 </tr>
 </tbody>
 </table>
@@ -551,7 +558,7 @@ to tpl_pack. This is an index number designating which variable-length array
 we&#8217;re packing. In this case, there is only one.</p></div>
 <h4 id="index">Index numbers</h4>
 <div class="paragraph"><p>Index numbers identify a particular variable-length array in the format string.
-Each <tt>A(&#8230;)</tt> in a format string has its own index number.  The index numbers
+Each <tt>A(...)</tt> in a format string has its own index number.  The index numbers
 are assigned left-to-right starting from 1. Examples:</p></div>
 <div class="literalblock">
 <div class="content">
@@ -561,7 +568,7 @@ A(A(i))     /* index numbers 1 and 2 (order is independent of nesting) */</tt></
 </div></div>
 <h5 id="_special_index_number_0">Special index number 0</h5>
 <div class="paragraph"><p>The special index number 0 designates all the format characters that are not
-inside an <tt>A(&#8230;)</tt>.  Examples of what index 0 does (and does not) designate:</p></div>
+inside an <tt>A(...)</tt>.  Examples of what index 0 does (and does not) designate:</p></div>
 <div class="literalblock">
 <div class="content">
 <pre><tt>S(ius)      /* index 0 designates the whole thing */
@@ -761,9 +768,9 @@ tpl_dump(tn, TPL_FILE, "struct.tpl");
 tpl_free(tn);</tt></pre>
 </div></div>
 <div class="paragraph"><p>As shown, omit the individual arguments for the format characters inside the
-parenthesis. The exception is for fixed-length arrays; when <tt>S(&#8230;)</tt> contains a
+parenthesis. The exception is for fixed-length arrays; when <tt>S(...)</tt> contains a
 <tt>#</tt> character, its length argument is required: <tt>tpl_map("S(f#i)", &amp;s, 10);</tt></p></div>
-<div class="paragraph"><p>When using the <tt>S(&#8230;)</tt> format, the only characters allowed inside the
+<div class="paragraph"><p>When using the <tt>S(...)</tt> format, the only characters allowed inside the
 parentheses are <tt>iujvcsfIU#$()</tt>.</p></div>
 <h4 id="_structure_arrays">Structure arrays</h4>
 <div class="paragraph"><p>Arrays of structures are the same as simple arrays. Fixed- or variable- length
@@ -811,7 +818,7 @@ length suffix even if it contains some nested structures.</p></div>
 <h3 id="_linked_lists">Linked lists</h3><div style="clear:left"></div>
 <div class="paragraph"><p>While tpl has no specific data type for a linked list, the technique for
 packing them is illustrated here.  First describe your list element as a
-format string and then surround it with <tt>A(&#8230;)</tt> to describe it as
+format string and then surround it with <tt>A(...)</tt> to describe it as
 variable-length array.  Then, using a temporary variable, iterate over each
 list element, copying it to the temporary variable and packing it.</p></div>
 <div class="literalblock">
@@ -877,7 +884,7 @@ or written as the tpl is packed or unpacked.</p></div>
 <div class="content">
 <pre><tt>tn = tpl_map("A(i)A(c)", &amp;i, &amp;c);
 for(i=0; i&lt;10; i++) tpl_pack(tn, 1);    /* pack 0-9 into index 1 */
-for(c='a; c&lt;='z'; c++) tpl_pack(tn, 2); /* pack a-z into index 2 */</tt></pre>
+for(c='a'; c&lt;='z'; c++) tpl_pack(tn, 2); /* pack a-z into index 2 */</tt></pre>
 </div></div>
 <div class="sidebarblock">
 <div class="sidebar-content">
@@ -887,7 +894,7 @@ the program is free to immediately overwrite or re-use the packed variables.</p>
 </div></div>
 <h4 id="_index_number_0">Index number 0</h4>
 <div class="paragraph"><p>It is necessary to pack index number 0 only if the format string contains
-characters that are not inside an <tt>A(&#8230;)</tt>, such as the <tt>i</tt> in the format string
+characters that are not inside an <tt>A(...)</tt>, such as the <tt>i</tt> in the format string
 <tt>iA(c)</tt>.</p></div>
 <h4 id="_variable_length_arrays">Variable-length arrays</h4>
 <h5 id="_adding_elements_to_an_array">Adding elements to an array</h5>
@@ -950,32 +957,32 @@ frame="border"
 cellspacing="0" cellpadding="4">
 <col width="30%" />
 <col width="70%" />
-<thead valign="top">
+<thead>
 <tr>
-<th align="center">Write to&#8230;      </th>
-<th align="left">Usage</th>
+<th align="center" valign="top">Write to&#8230;      </th>
+<th align="left" valign="top">Usage</th>
 </tr>
 </thead>
-<tbody valign="top">
+<tbody>
 <tr>
-<td align="center"><p class="table">file</p></td>
-<td align="left"><p class="table"><tt>tpl_dump(tn, TPL_FILE, "file.tpl" );</tt></p></td>
+<td align="center" valign="top"><p class="table">file</p></td>
+<td align="left" valign="top"><p class="table"><tt>tpl_dump(tn, TPL_FILE, "file.tpl" );</tt></p></td>
 </tr>
 <tr>
-<td align="center"><p class="table">file descriptor</p></td>
-<td align="left"><p class="table"><tt>tpl_dump(tn, TPL_FD, 2);</tt></p></td>
+<td align="center" valign="top"><p class="table">file descriptor</p></td>
+<td align="left" valign="top"><p class="table"><tt>tpl_dump(tn, TPL_FD, 2);</tt></p></td>
 </tr>
 <tr>
-<td align="center"><p class="table">memory</p></td>
-<td align="left"><p class="table"><tt>tpl_dump(tn, TPL_MEM, &amp;addr, &amp;len );</tt></p></td>
+<td align="center" valign="top"><p class="table">memory</p></td>
+<td align="left" valign="top"><p class="table"><tt>tpl_dump(tn, TPL_MEM, &amp;addr, &amp;len );</tt></p></td>
 </tr>
 <tr>
-<td align="center"><p class="table">caller&#8217;s memory</p></td>
-<td align="left"><p class="table"><tt>tpl_dump(tn, TPL_MEM|TPL_PREALLOCD, buf, sizeof(buf));</tt></p></td>
+<td align="center" valign="top"><p class="table">caller&#8217;s memory</p></td>
+<td align="left" valign="top"><p class="table"><tt>tpl_dump(tn, TPL_MEM|TPL_PREALLOCD, buf, sizeof(buf));</tt></p></td>
 </tr>
 <tr>
-<td align="center"><p class="table">just get size</p></td>
-<td align="left"><p class="table"><tt>tpl_dump(tn, TPL_GETSIZE, &amp;sz);</tt></p></td>
+<td align="center" valign="top"><p class="table">just get size</p></td>
+<td align="left" valign="top"><p class="table"><tt>tpl_dump(tn, TPL_GETSIZE, &amp;sz);</tt></p></td>
 </tr>
 </tbody>
 </table>
@@ -1008,7 +1015,7 @@ cellspacing="0" cellpadding="4">
 <dd>
 <p>
     Writes the tpl to a memory buffer. The following two arguments must be a
-    <tt>void**</tt> and a <tt>size_t*</tt>. The function will allocate a buffer and store
+    <tt>void\*\*</tt> and a <tt>size_t*</tt>. The function will allocate a buffer and store
     its address and length into these locations.  The caller is responsible to
     <tt>free()</tt> the buffer when done using it.
 </p>
@@ -1032,7 +1039,7 @@ cellspacing="0" cellpadding="4">
 <dd>
 <p>
     This special mode does not actually dump the tpl. Instead it places the size
-    that the dump <em>would</em> require into the <tt>uint32_t</tt> pointed to by the
+    that the dump <em>would</em> require into the <tt>size_t</tt> pointed to by the
     following argument.
 </p>
 </dd>
@@ -1137,7 +1144,7 @@ while (tpl_unpack( tn, 2) &gt; 0) printf("c is %c\n", c); /* unpack index 2 */</
 </div></div>
 <h4 id="_index_number_0_2">Index number 0</h4>
 <div class="paragraph"><p>It is necessary to unpack index number 0 only if the format string contains
-characters that are not inside an <tt>A(&#8230;)</tt>, such as the <tt>i</tt> in the format string
+characters that are not inside an <tt>A(...)</tt>, such as the <tt>i</tt> in the format string
 <tt>iA(c)</tt>.</p></div>
 <h4 id="_variable_length_arrays_2">Variable-length arrays</h4>
 <h5 id="_unpacking_elements_from_an_array">Unpacking elements from an array</h5>
@@ -1244,7 +1251,7 @@ if (fmt) {
 <h4 id="_data_peek">Data peek</h4>
 <div class="paragraph"><p>To peek into the data, additional arguments are used. This is a quick
 alternative to mapping, loading and unpacking the tpl, but peeking is limited
-to the data in index 0. In other words, no peeking into <tt>A(&#8230;)</tt> types.
+to the data in index 0. In other words, no peeking into <tt>A(...)</tt> types.
 Suppose the tpl image in <tt>file.tpl</tt> has the format string <tt>siA(i)</tt>. Then the
 index 0 format characters are <tt>si</tt>. This is how to peek at their content:</p></div>
 <div class="literalblock">
@@ -1264,8 +1271,8 @@ portion</em> of the index 0 format if you don&#8217;t want to peek at the whole 
 </div></div>
 <div class="paragraph"><p>The <tt>TPL_DATAPEEK</tt> mode is mutually exclusive with <tt>TPL_FXLENS</tt>.</p></div>
 <h5 id="_structure_peek">Structure peek</h5>
-<div class="paragraph"><p>Lastly you can peek into <tt>S(&#8230;)</tt> structures in index 0, but omit the
-surrounding <tt>S(&#8230;)</tt> in the format, and specify an argument to receive
+<div class="paragraph"><p>Lastly you can peek into <tt>S(...)</tt> structures in index 0, but omit the
+surrounding <tt>S(...)</tt> in the format, and specify an argument to receive
 each structure member individually. You can specify any leading portion
 of the structure format. For example if <tt>struct.tpl</tt> has the format string
 <tt>S(si)</tt>, you can peek at its data in these ways:</p></div>
@@ -1278,7 +1285,7 @@ fmt = tpl_peek(TPL_FILE | TPL_DATAPEEK, "struct.tpl", "si", &amp;s, &amp;i);</tt
 <div class="paragraph"><p>This is a quick shortcut for generating a tpl. It can be used instead of the
 usual "map, pack, dump, and free" lifecycle. With <tt>tpl_jot</tt> all those steps are
 handled for you.  It only works for simple formats-- namely, those without
-<tt>A(&#8230;)</tt> in their format string. Here is how it is used:</p></div>
+<tt>A(...)</tt> in their format string. Here is how it is used:</p></div>
 <div class="literalblock">
 <div class="content">
 <pre><tt>char *hello = "hello", *world = "world";
@@ -1311,47 +1318,47 @@ extern tpl_hook_t tpl_hook;</tt></pre>
 width="90%"
 frame="border"
 cellspacing="0" cellpadding="4">
-<caption class="title">Configurable hooks</caption>
+<caption class="title">Table 3. Configurable hooks</caption>
 <col width="33%" />
 <col width="33%" />
 <col width="33%" />
-<thead valign="top">
+<thead>
 <tr>
-<th align="left">Hook                </th>
-<th align="left">Description                  </th>
-<th align="left"> Default</th>
+<th align="left" valign="top">Hook                </th>
+<th align="left" valign="top">Description                  </th>
+<th align="left" valign="top"> Default</th>
 </tr>
 </thead>
-<tbody valign="top">
+<tbody>
 <tr>
-<td align="left"><p class="table"><tt>tpl_hook.oops</tt></p></td>
-<td align="left"><p class="table">log error messages</p></td>
-<td align="left"><p class="table"><tt>tpl_oops</tt></p></td>
+<td align="left" valign="top"><p class="table"><tt>tpl_hook.oops</tt></p></td>
+<td align="left" valign="top"><p class="table">log error messages</p></td>
+<td align="left" valign="top"><p class="table"><tt>tpl_oops</tt></p></td>
 </tr>
 <tr>
-<td align="left"><p class="table"><tt>tpl_hook.malloc</tt></p></td>
-<td align="left"><p class="table">allocate memory</p></td>
-<td align="left"><p class="table"><tt>malloc</tt></p></td>
+<td align="left" valign="top"><p class="table"><tt>tpl_hook.malloc</tt></p></td>
+<td align="left" valign="top"><p class="table">allocate memory</p></td>
+<td align="left" valign="top"><p class="table"><tt>malloc</tt></p></td>
 </tr>
 <tr>
-<td align="left"><p class="table"><tt>tpl_hook.realloc</tt></p></td>
-<td align="left"><p class="table">reallocate memory</p></td>
-<td align="left"><p class="table"><tt>realloc</tt></p></td>
+<td align="left" valign="top"><p class="table"><tt>tpl_hook.realloc</tt></p></td>
+<td align="left" valign="top"><p class="table">reallocate memory</p></td>
+<td align="left" valign="top"><p class="table"><tt>realloc</tt></p></td>
 </tr>
 <tr>
-<td align="left"><p class="table"><tt>tpl_hook.free</tt></p></td>
-<td align="left"><p class="table">free memory</p></td>
-<td align="left"><p class="table"><tt>free</tt></p></td>
+<td align="left" valign="top"><p class="table"><tt>tpl_hook.free</tt></p></td>
+<td align="left" valign="top"><p class="table">free memory</p></td>
+<td align="left" valign="top"><p class="table"><tt>free</tt></p></td>
 </tr>
 <tr>
-<td align="left"><p class="table"><tt>tpl_hook.fatal</tt></p></td>
-<td align="left"><p class="table">log fatal message and exit</p></td>
-<td align="left"><p class="table"><tt>tpl_fatal</tt></p></td>
+<td align="left" valign="top"><p class="table"><tt>tpl_hook.fatal</tt></p></td>
+<td align="left" valign="top"><p class="table">log fatal message and exit</p></td>
+<td align="left" valign="top"><p class="table"><tt>tpl_fatal</tt></p></td>
 </tr>
 <tr>
-<td align="left"><p class="table"><tt>tpl_hook.gather_max</tt></p></td>
-<td align="left"><p class="table">tpl_gather max image size</p></td>
-<td align="left"><p class="table"><tt>0 (unlimited)</tt></p></td>
+<td align="left" valign="top"><p class="table"><tt>tpl_hook.gather_max</tt></p></td>
+<td align="left" valign="top"><p class="table">tpl_gather max image size</p></td>
+<td align="left" valign="top"><p class="table"><tt>0 (unlimited)</tt></p></td>
 </tr>
 </tbody>
 </table>
@@ -1529,10 +1536,12 @@ descriptor, it takes a buffer address and size. The return values are also the
 same as for <tt>TPL_GATHER_NONBLOCKING</tt> noting of course there is no file
 descriptor to close on a non-positive return value.</p></div>
 </div>
+</div>
+<div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
 Version 1.5<br />
-Last updated 2010-02-05 04:37:37 EDT
+Last updated 2011-01-25 09:28:04 EDT
 </div>
 </div>
 </body>

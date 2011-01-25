@@ -12,7 +12,7 @@ pdf: txt/userguide.txt
 	a2x -f pdf $<
 	mv txt/userguide.pdf pdf/
 	cd html && ln -sf ../pdf/userguide.pdf userguide.pdf
-	rm txt/userguide.xml
+	rm -f txt/userguide.xml
 
 perl: txt/perl.txt
 	asciidoc --unsafe --out-file=html/perl.html -a linkcss=1 -a theme=tdh txt/perl.txt 

@@ -679,7 +679,7 @@ The function `tpl_pack()` packs data into a tpl. The arguments to
 
     tn = tpl_map("A(i)A(c)", &i, &c);
     for(i=0; i<10; i++) tpl_pack(tn, 1);    /* pack 0-9 into index 1 */
-    for(c='a; c<='z'; c++) tpl_pack(tn, 2); /* pack a-z into index 2 */
+    for(c='a'; c<='z'; c++) tpl_pack(tn, 2); /* pack a-z into index 2 */
 
 .Data is copied when packed
 ********************************************************************************

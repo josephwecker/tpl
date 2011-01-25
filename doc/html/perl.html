@@ -3,19 +3,26 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.3.4" />
+<meta name="generator" content="AsciiDoc 8.5.2" />
 <title>tpl Perl API</title>
 <link rel="stylesheet" href="./tdh.css" type="text/css" />
 <link rel="stylesheet" href="./tdh-quirks.css" type="text/css" />
+<script type="text/javascript">
+/*<![CDATA[*/
+window.onload = function(){asciidoc.footnotes();}
+/*]]>*/
+</script>
+<script type="text/javascript" src="./asciidoc-xhtml11.js"></script>
 </head>
 <body>
 <div id="header">
 <h1>tpl Perl API</h1>
 <span id="author">Troy D. Hanson</span><br />
 <span id="email"><tt>&lt;<a href="mailto:troydhanson@comcast.net">troydhanson@comcast.net</a>&gt;</tt></span><br />
-<span id="revision">version 1.1,</span>
-April 2007
+<span id="revnumber">version 1.1,</span>
+<span id="revdate">April 2007</span>
 </div>
+<div id="content">
 <div id="preamble">
 <div class="sectionbody">
 <a style="float: right;" href="http://sourceforge.net/projects/tpl"><img src="http://sflogo.sourceforge.net/sflogo.php?group_id=157637&amp;type=16" width="150" height="40" alt="SourceForge.net" /></a>
@@ -156,16 +163,16 @@ my $tpl = Tpl-&gt;tpl_map("i#", \@x, 10);</tt></pre>
 <div class="paragraph"><p>When fixed-length arrays are packed or unpacked, the specified number of
 elements will be copied from (or placed into) the designated list.</p></div>
 <h4 id="_structures">Structures</h4>
-<div class="paragraph"><p>Format strings containing <tt>S(&#8230;)</tt> are handled in the Perl API as if only the
+<div class="paragraph"><p>Format strings containing <tt>S(...)</tt> are handled in the Perl API as if only the
 interior, parenthesized part was present. (It does not work like the C API). So
-simply ignore the <tt>S(&#8230;)</tt> and consider only its interior format characters when
+simply ignore the <tt>S(...)</tt> and consider only its interior format characters when
 constructing the argument list:</p></div>
 <div class="literalblock">
 <div class="content">
 <pre><tt>my ($str, $int);
 my $tpl = Tpl-&gt;tpl_map("S(si)", \$str, \$int);</tt></pre>
 </div></div>
-<div class="paragraph"><p>It really only makes sense to use <tt>S(&#8230;)</tt> in a format string in the Perl API if
+<div class="paragraph"><p>It really only makes sense to use <tt>S(...)</tt> in a format string in the Perl API if
 you are communicating with a C program that uses structures.</p></div>
 <h3 id="_tpl_pack">tpl_pack</h3><div style="clear:left"></div>
 <div class="paragraph"><p>This is nearly identical to the C version. The only argument is the index
@@ -393,10 +400,12 @@ you can run the example by starting the server in one window:</p></div>
 <div class="paragraph"><p>You can re-run the client with different arguments. When done, type <tt>Ctrl-C</tt> in
 the server window to terminate it.</p></div>
 </div>
+</div>
+<div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
 Version 1.1<br />
-Last updated 2009-04-30 21:22:12 EDT
+Last updated 2010-07-18 21:14:17 EDT
 </div>
 </div>
 </body>
