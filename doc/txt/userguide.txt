@@ -631,7 +631,7 @@ list element, copying it to the temporary variable and packing it.
 
   /* add some elements to list.. (not shown)*/
 
-  tn = tpl_map("A(ci)", &tmp);
+  tn = tpl_map("A(S(ci))", &tmp);
   for(i = list; i != NULL; i=i->next) {
     tmp = *i; 
     tpl_pack(tn, 1);
