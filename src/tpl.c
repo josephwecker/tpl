@@ -982,6 +982,7 @@ TPL_API int tpl_dump(tpl_node *r, int mode, ...) {
     void **addr_out,*buf, *pa_addr;
     int fd,rc=0;
     size_t sz,*sz_out, pa_sz;
+    struct stat sbuf;
 
     if (((tpl_root_data*)(r->data))->flags & TPL_RDONLY) {  /* unusual */
         tpl_hook.oops("error: tpl_dump called for a loaded tpl\n");
@@ -1019,6 +1020,12 @@ TPL_API int tpl_dump(tpl_node *r, int mode, ...) {
                 if (errno == EINTR || errno == EAGAIN) continue;
                 tpl_hook.oops("error writing to fd %d: %s\n", fd, strerror(errno));
                 free(buf);
+                /* attempt to rewind partial write to a regular file */
+                if (fstat(fd,&sbuf) == 0 && S_ISREG(sbuf.st_mode)) {
+                  if (ftruncate(fd,sbuf.st_size - (bufv-(char*)buf)) == -1) {
+                    tpl_hook.oops("can't rewind: %s\n", strerror(errno));
+                  }
+                }
                 return -1;
             }
         } while (sz > 0);
