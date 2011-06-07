@@ -173,7 +173,7 @@ struct tpl_type_t {
 /* Internal prototypes */
 static tpl_node *tpl_node_new(tpl_node *parent);
 static tpl_node *tpl_find_i(tpl_node *n, int i);
-static void *tpl_cpv(void *datav, void *data, size_t sz);
+static void *tpl_cpv(void *datav, const void *data, size_t sz);
 static void *tpl_extend_backbone(tpl_node *n);
 static char *tpl_fmt(tpl_node *r);
 static void *tpl_dump_atyp(tpl_node *n, tpl_atyp* at, void *dv);
@@ -185,14 +185,13 @@ static int tpl_mmap_output_file(char *filename, size_t sz, void **text_out);
 static int tpl_cpu_bigendian(void);
 static int tpl_needs_endian_swap(void *);
 static void tpl_byteswap(void *word, int len);
-static void tpl_fatal(char *fmt, ...);
+static void tpl_fatal(const char *fmt, ...);
 static int tpl_serlen(tpl_node *r, tpl_node *n, void *dv, size_t *serlen);
 static int tpl_unpackA0(tpl_node *r);
 static int tpl_oops(const char *fmt, ...);
 static int tpl_gather_mem( char *buf, size_t len, tpl_gather_t **gs, tpl_gather_cb *cb, void *data);
 static int tpl_gather_nonblocking( int fd, tpl_gather_t **gs, tpl_gather_cb *cb, void *data);
 static int tpl_gather_blocking(int fd, void **img, size_t *sz);
-static tpl_node *tpl_map_va(char *fmt, va_list ap);
 
 /* This is used internally to help calculate padding when a 'double' 
  * follows a smaller datatype in a structure. Normally under gcc
@@ -317,7 +316,7 @@ TPL_API tpl_node *tpl_map(char *fmt,...) {
   return tn;
 }
 
-static tpl_node *tpl_map_va(char *fmt, va_list ap) {
+TPL_API tpl_node *tpl_map_va(char *fmt, va_list ap) {
     int lparen_level=0,expect_lparen=0,t=0,in_structure=0,ordinal=0;
     int in_nested_structure=0;
     char *c, *peek, *struct_addr=NULL, *struct_next;
@@ -785,7 +784,7 @@ static tpl_node *tpl_find_i(tpl_node *n, int i) {
     return NULL;
 }
 
-static void *tpl_cpv(void *datav, void *data, size_t sz) {
+static void *tpl_cpv(void *datav, const void *data, size_t sz) {
     if (sz>0) memcpy(datav,data,sz);
     return (void*)((uintptr_t)datav + sz);
 }
@@ -2162,7 +2161,7 @@ static void tpl_byteswap(void *word, int len) {
     }
 }
 
-static void tpl_fatal(char *fmt, ...) {
+static void tpl_fatal(const char *fmt, ...) {
     va_list ap;
     char exit_msg[100];
 

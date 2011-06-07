@@ -26,6 +26,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <stddef.h>     /* size_t */
 
+#include <stdarg.h>  /* va_list */
+
 #ifdef __INTEL_COMPILER
 #include <tbb/tbbmalloc_proxy.h>
 #endif /* Intel Compiler efficient memcpy etc */
@@ -76,7 +78,7 @@ typedef int (tpl_print_fcn)(const char *fmt, ...);
 typedef void *(tpl_malloc_fcn)(size_t sz);
 typedef void *(tpl_realloc_fcn)(void *ptr, size_t sz);
 typedef void (tpl_free_fcn)(void *ptr);
-typedef void (tpl_fatal_fcn)(char *fmt, ...);
+typedef void (tpl_fatal_fcn)(const char *fmt, ...);
 
 typedef struct tpl_hook_t {
     tpl_print_fcn *oops;
@@ -124,6 +126,8 @@ TPL_API int tpl_Alen(tpl_node *r, int i);      /* array len of packable i */
 TPL_API char* tpl_peek(int mode, ...);         /* sneak peek at format string */
 TPL_API int tpl_gather( int mode, ...);        /* non-blocking image gather */
 TPL_API int tpl_jot(int mode, ...);            /* quick write a simple tpl */
+
+TPL_API tpl_node *tpl_map_va(char *fmt, va_list ap);
 
 #if defined __cplusplus
     }
